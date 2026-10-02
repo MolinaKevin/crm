@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="reports.css">
   <style>.settings-form .activity{grid-template-columns:34px 1fr auto;align-items:center}.settings-form .wide-field{margin-top:16px}</style>
 </head>
 <body>
@@ -90,6 +91,15 @@
           <article class="metric"><span class="metric-icon orange">◷</span><label>Pendiente</label><strong>$ 3.420.000</strong><small>5 comprobantes pendientes</small></article>
           <article class="metric"><span class="metric-icon red">!</span><label>Vencido</label><strong>$ 680.000</strong><small>2 comprobantes vencidos</small></article>
         </section>
+        <section class="report-grid">
+          <article class="card tax-summary">
+            <div class="report-head"><div><span class="eyebrow">PERÍODO OCTUBRE 2026</span><h3>Resumen fiscal mensual</h3><p>Estimación del IVA según los comprobantes registrados.</p></div><span class="demo-pill">Vista preliminar</span></div>
+            <div class="tax-equation"><div><span>IVA ventas</span><strong>$ 4.312.700</strong><small>Débito fiscal</small></div><i>−</i><div><span>IVA compras</span><strong>$ 2.086.400</strong><small>Crédito fiscal</small></div><i>=</i><div class="tax-result"><span>IVA a pagar</span><strong>$ 2.226.300</strong><small>Vencimiento: 18 nov</small></div></div>
+            <p class="tax-note">ⓘ Valor estimado con fines demostrativos. Validalo con tu contador antes de presentar declaraciones.</p>
+          </article>
+          <article class="card top-product"><div class="report-head"><div><span class="eyebrow">MÁS VENDIDO</span><h3>Producto destacado</h3></div></div><div class="product-rank"><span class="product-cube">⬡</span><div><strong>Filtro industrial XL</strong><small>Repuestos</small></div><b>128 u.</b></div><div class="product-stats"><span><small>Facturación</small><b>$ 6.208.000</b></span><span><small>Participación</small><b>24,9%</b></span></div></article>
+        </section>
+        <section class="card invoice-totals"><div><span class="metric-icon blue">↗</span><span><small>Facturas de venta</small><strong>184 comprobantes</strong><b>$ 24.850.000</b></span></div><div><span class="metric-icon orange">↙</span><span><small>Facturas de compra</small><strong>96 comprobantes</strong><b>$ 11.934.000</b></span></div><div class="report-actions"><button class="secondary report-export" data-format="PDF">▧ Exportar PDF</button><button class="secondary report-export" data-format="Excel">▦ Exportar Excel</button></div></section>
         <section class="card billing-panel">
           <div class="billing-toolbar"><div><h3>Comprobantes</h3><p>Historial de facturas y notas de crédito</p></div><div class="filters"><label class="mini-search">⌕ <input id="invoiceSearch" type="search" placeholder="Buscar cliente o factura"></label><select id="invoiceStatus"><option value="all">Todos los estados</option><option value="paid">Pagada</option><option value="pending">Pendiente</option><option value="overdue">Vencida</option></select><button class="secondary" id="exportInvoices">↓ Exportar</button></div></div>
           <div class="table-wrap"><table class="invoice-table"><thead><tr><th>COMPROBANTE</th><th>CLIENTE</th><th>EMISIÓN</th><th>VENCIMIENTO</th><th>IMPORTE</th><th>ESTADO</th><th></th></tr></thead><tbody id="invoiceBody">
@@ -149,6 +159,7 @@
       <div class="modal-actions"><button value="cancel" class="secondary">Cancelar</button><button value="default" class="primary">Crear factura</button></div>
     </form>
   </dialog>
+  <dialog id="exportDialog" class="message-dialog"><div class="export-modal"><span class="export-icon">↓</span><h2>Exportación de demostración</h2><p id="exportMessage">En una versión productiva, este botón generaría el archivo con la información fiscal y comercial.</p><div class="export-list"><span>✓ Resumen de IVA</span><span>✓ Facturas de compra y venta</span><span>✓ Productos más vendidos</span></div><button class="primary" id="closeExport">Entendido</button></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>

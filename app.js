@@ -125,7 +125,14 @@ function filterInvoices() {
 }
 document.querySelector('#invoiceSearch').addEventListener('input', filterInvoices);
 document.querySelector('#invoiceStatus').addEventListener('change', filterInvoices);
-document.querySelector('#exportInvoices').addEventListener('click', () => showToast('Exportación preparada (datos de demostración)'));
+const exportDialog = document.querySelector('#exportDialog');
+function showExportDemo(format) {
+  document.querySelector('#exportMessage').textContent = `Esta es una demostración. En la versión productiva se generaría un archivo ${format} con el resumen fiscal y comercial del período seleccionado.`;
+  exportDialog.showModal();
+}
+document.querySelector('#exportInvoices').addEventListener('click', () => showExportDemo('Excel'));
+document.querySelectorAll('.report-export').forEach(button => button.addEventListener('click', () => showExportDemo(button.dataset.format)));
+document.querySelector('#closeExport').addEventListener('click', () => exportDialog.close());
 document.querySelectorAll('#invoiceBody .row-menu').forEach(button => button.addEventListener('click', () => showToast('Opciones del comprobante')));
 
 invoiceForm.addEventListener('submit', event => {
@@ -211,7 +218,7 @@ function renderModule(key) {
   action.hidden = false; action.textContent = config.action; action.onclick = () => showToast(`${config.action.replace('＋ ', '')}: formulario de demostración`);
   content.innerHTML = `<section class="module-grid">${config.stats.map(stat => `<article class="card module-stat"><span>${stat[0]}</span><strong>${stat[1]}</strong><small>${stat[2]}</small></article>`).join('')}</section><section class="card billing-panel"><div class="billing-toolbar"><div><h3>Listado general</h3><p>Datos actualizados del espacio de trabajo</p></div><div class="filters"><label class="mini-search">⌕ <input id="moduleSearch" type="search" placeholder="Buscar en ${config.title.toLowerCase()}"></label><button class="secondary" id="moduleExport">↓ Exportar</button></div></div><div class="table-wrap"><table class="invoice-table"><thead><tr>${config.columns.map(column => `<th>${column}</th>`).join('')}<th></th></tr></thead><tbody id="moduleBody">${config.rows.map(row => `<tr>${row.map((cell,index) => `<td>${index === row.length - 1 ? `<span class="status ${statusClass(cell)}">${cell}</span>` : cell}</td>`).join('')}<td><button class="row-menu">•••</button></td></tr>`).join('')}</tbody></table></div><div class="table-footer"><span id="moduleCount">Mostrando ${config.rows.length} registros</span><div><button disabled>‹</button><button class="active">1</button><button>›</button></div></div></section>`;
   document.querySelector('#moduleSearch').addEventListener('input', filterModuleRows);
-  document.querySelector('#moduleExport').addEventListener('click', () => showToast('Exportación preparada (datos de demostración)'));
+  document.querySelector('#moduleExport').addEventListener('click', () => showExportDemo('Excel'));
   document.querySelectorAll('#moduleBody .row-menu').forEach(button => button.addEventListener('click', () => showToast('Opciones del registro')));
 }
 
