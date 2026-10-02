@@ -15,11 +15,11 @@
     <div class="brand"><span class="brand-mark">◇</span><span><b>Nexo</b><small>GESTIÓN INTEGRAL</small></span></div>
     <nav aria-label="Navegación principal">
       <p class="nav-label">PRINCIPAL</p>
-      <button class="nav-item active" data-page="Resumen"><span>▦</span>Resumen</button>
-      <button class="nav-item" data-page="Facturación"><span>▤</span>Facturación</button>
+      <button class="nav-item active" data-page="Resumen" data-view="dashboardView"><span>▦</span>Resumen</button>
+      <button class="nav-item" data-page="Facturación" data-view="billingView"><span>▤</span>Facturación</button>
       <button class="nav-item" data-page="Productos"><span>⬡</span>Productos</button>
       <button class="nav-item" data-page="Clientes"><span>◎</span>Clientes</button>
-      <button class="nav-item" data-page="Órdenes de trabajo"><span>☷</span>Órdenes de trabajo</button>
+      <button class="nav-item" data-page="Órdenes de trabajo" data-view="workOrdersView"><span>☷</span>Órdenes de trabajo</button>
       <button class="nav-item" data-page="Caja"><span>▣</span>Caja</button>
       <button class="nav-item" data-page="Stock"><span>◫</span>Stock</button>
       <div class="nav-separator"></div>
@@ -40,6 +40,7 @@
     </header>
 
     <main>
+      <div class="app-view active" id="dashboardView">
       <div class="intro"><div><h1>Buenas tardes, administrador</h1><p>Aquí tienes un resumen de lo que sucede hoy en tu negocio.</p></div><span class="demo-pill">Datos de demostración</span></div>
 
       <section class="hero">
@@ -78,6 +79,49 @@
         </tbody></table></div>
         <p class="empty" id="emptyState">No encontramos resultados para esa búsqueda.</p>
       </section>
+      </div>
+
+      <div class="app-view" id="billingView">
+        <div class="page-title"><div><span class="eyebrow">FINANZAS</span><h1>Facturación</h1><p>Gestioná comprobantes, cobros y vencimientos desde un solo lugar.</p></div><button class="primary" id="newInvoice">＋ Nueva factura</button></div>
+        <section class="metrics billing-metrics">
+          <article class="metric"><span class="metric-icon blue">$</span><label>Facturado este mes</label><strong>$ 24.850.000</strong><small class="positive">↑ 12,4% vs. mes anterior</small></article>
+          <article class="metric"><span class="metric-icon green">✓</span><label>Cobrado</label><strong>$ 21.430.000</strong><small>86,2% del total facturado</small></article>
+          <article class="metric"><span class="metric-icon orange">◷</span><label>Pendiente</label><strong>$ 3.420.000</strong><small>5 comprobantes pendientes</small></article>
+          <article class="metric"><span class="metric-icon red">!</span><label>Vencido</label><strong>$ 680.000</strong><small>2 comprobantes vencidos</small></article>
+        </section>
+        <section class="card billing-panel">
+          <div class="billing-toolbar"><div><h3>Comprobantes</h3><p>Historial de facturas y notas de crédito</p></div><div class="filters"><label class="mini-search">⌕ <input id="invoiceSearch" type="search" placeholder="Buscar cliente o factura"></label><select id="invoiceStatus"><option value="all">Todos los estados</option><option value="paid">Pagada</option><option value="pending">Pendiente</option><option value="overdue">Vencida</option></select><button class="secondary" id="exportInvoices">↓ Exportar</button></div></div>
+          <div class="table-wrap"><table class="invoice-table"><thead><tr><th>COMPROBANTE</th><th>CLIENTE</th><th>EMISIÓN</th><th>VENCIMIENTO</th><th>IMPORTE</th><th>ESTADO</th><th></th></tr></thead><tbody id="invoiceBody">
+            <tr data-status="paid"><td><b>Factura A</b><small>0001-00001248</small></td><td>Metalúrgica Norte<small>CUIT 30-71234567-8</small></td><td>28 sep 2026</td><td>08 oct 2026</td><td><b>$ 1.284.000</b></td><td><span class="status done">Pagada</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="pending"><td><b>Factura B</b><small>0001-00001247</small></td><td>Estudio Delta<small>CUIT 30-69874512-3</small></td><td>27 sep 2026</td><td>07 oct 2026</td><td><b>$ 860.000</b></td><td><span class="status process">Pendiente</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="overdue"><td><b>Factura A</b><small>0001-00001242</small></td><td>Comercial San Martín<small>CUIT 30-72341678-1</small></td><td>18 sep 2026</td><td>28 sep 2026</td><td><b>$ 680.000</b></td><td><span class="status overdue">Vencida</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="paid"><td><b>Factura B</b><small>0001-00001239</small></td><td>Servicios del Sur<small>CUIT 30-71456987-2</small></td><td>15 sep 2026</td><td>25 sep 2026</td><td><b>$ 2.140.000</b></td><td><span class="status done">Pagada</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="pending"><td><b>Factura A</b><small>0001-00001235</small></td><td>Industrias Rivera<small>CUIT 30-70987456-4</small></td><td>12 sep 2026</td><td>12 oct 2026</td><td><b>$ 1.880.000</b></td><td><span class="status process">Pendiente</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+          </tbody></table></div>
+          <div class="table-footer"><span id="invoiceCount">Mostrando 5 comprobantes</span><div><button disabled>‹</button><button class="active">1</button><button>2</button><button>›</button></div></div>
+        </section>
+      </div>
+
+      <div class="app-view" id="workOrdersView">
+        <div class="page-title"><div><span class="eyebrow">OPERACIONES</span><h1>Órdenes de trabajo</h1><p>Planificá, asigná y seguí cada trabajo hasta su entrega.</p></div><button class="primary new-order-trigger">＋ Nueva orden</button></div>
+        <section class="metrics billing-metrics">
+          <article class="metric"><span class="metric-icon purple">☷</span><label>Órdenes activas</label><strong>12</strong><small>6 actualmente en proceso</small></article>
+          <article class="metric"><span class="metric-icon blue">◷</span><label>Para hoy</label><strong>4</strong><small>2 pendientes de asignación</small></article>
+          <article class="metric"><span class="metric-icon orange">!</span><label>Próximas a vencer</label><strong>3</strong><small>Dentro de las próximas 48 h</small></article>
+          <article class="metric"><span class="metric-icon green">✓</span><label>Finalizadas este mes</label><strong>28</strong><small class="positive">↑ 16% vs. mes anterior</small></article>
+        </section>
+        <section class="card billing-panel">
+          <div class="billing-toolbar"><div><h3>Listado de órdenes</h3><p>Trabajos activos, pendientes y completados</p></div><div class="filters"><label class="mini-search">⌕ <input id="workOrderSearch" type="search" placeholder="Buscar orden o cliente"></label><select id="workOrderStatus"><option value="all">Todos los estados</option><option value="pending">Pendiente</option><option value="process">En proceso</option><option value="done">Finalizada</option></select><button class="secondary" id="workOrderFilter">☷ Filtros</button></div></div>
+          <div class="table-wrap"><table class="invoice-table work-table"><thead><tr><th>ORDEN</th><th>CLIENTE / TRABAJO</th><th>RESPONSABLE</th><th>PRIORIDAD</th><th>ENTREGA</th><th>ESTADO</th><th></th></tr></thead><tbody id="workOrderBody">
+            <tr data-status="process"><td><b>#OT-1028</b><small>Creada 29 sep</small></td><td>Metalúrgica Norte<small>Mantenimiento de compresor</small></td><td><span class="assignee"><i>JM</i> Juan Molina</span></td><td><span class="priority-tag high">Alta</span></td><td><b>04 oct</b><small>Faltan 2 días</small></td><td><span class="status process">En proceso</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="pending"><td><b>#OT-1027</b><small>Creada 28 sep</small></td><td>Estudio Delta<small>Reparación equipo de frío</small></td><td><span class="assignee"><i>LS</i> Laura Soto</span></td><td><span class="priority-tag normal">Normal</span></td><td><b>05 oct</b><small>Faltan 3 días</small></td><td><span class="status pending">Pendiente</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="done"><td><b>#OT-1026</b><small>Creada 26 sep</small></td><td>Comercial San Martín<small>Instalación eléctrica</small></td><td><span class="assignee"><i>MR</i> Martín Ruiz</span></td><td><span class="priority-tag high">Alta</span></td><td><b>02 oct</b><small>Entregada hoy</small></td><td><span class="status done">Finalizada</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="process"><td><b>#OT-1025</b><small>Creada 24 sep</small></td><td>Industrias Rivera<small>Calibración de maquinaria</small></td><td><span class="assignee"><i>JM</i> Juan Molina</span></td><td><span class="priority-tag low">Baja</span></td><td><b>08 oct</b><small>Faltan 6 días</small></td><td><span class="status process">En proceso</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            <tr data-status="pending"><td><b>#OT-1024</b><small>Creada 23 sep</small></td><td>Servicios del Sur<small>Diagnóstico de tablero</small></td><td><span class="assignee unassigned"><i>?</i> Sin asignar</span></td><td><span class="priority-tag normal">Normal</span></td><td><b>10 oct</b><small>Faltan 8 días</small></td><td><span class="status pending">Pendiente</span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+          </tbody></table></div>
+          <div class="table-footer"><span id="workOrderCount">Mostrando 5 órdenes</span><div><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div></div>
+        </section>
+      </div>
     </main>
   </div>
 
@@ -88,6 +132,15 @@
       <label>Trabajo<textarea name="job" required placeholder="Describe el trabajo a realizar"></textarea></label>
       <div class="form-row"><label>Entrega<input name="date" required type="date"></label><label>Prioridad<select name="priority"><option>Normal</option><option>Alta</option><option>Urgente</option></select></label></div>
       <div class="modal-actions"><button value="cancel" class="secondary">Cancelar</button><button value="default" class="primary" id="saveOrder">Crear orden</button></div>
+    </form>
+  </dialog>
+  <dialog id="invoiceDialog">
+    <form method="dialog" id="invoiceForm"><div class="modal-head"><div><small>NUEVO COMPROBANTE</small><h2>Crear factura</h2></div><button value="cancel" aria-label="Cerrar">×</button></div>
+      <div class="form-row"><label>Tipo<select name="type"><option>Factura A</option><option>Factura B</option><option>Factura C</option></select></label><label>Cliente<input name="client" required placeholder="Razón social"></label></div>
+      <label>Concepto<input name="concept" required placeholder="Servicio o producto facturado"></label>
+      <div class="form-row"><label>Importe<input name="amount" required type="number" min="1" placeholder="0"></label><label>Vencimiento<input name="date" required type="date"></label></div>
+      <div class="invoice-preview"><span>Total del comprobante</span><strong id="invoicePreview">$ 0</strong></div>
+      <div class="modal-actions"><button value="cancel" class="secondary">Cancelar</button><button value="default" class="primary">Crear factura</button></div>
     </form>
   </dialog>
   <script src="app.js"></script>
