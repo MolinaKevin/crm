@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>.settings-form .activity{grid-template-columns:34px 1fr auto;align-items:center}.settings-form .wide-field{margin-top:16px}</style>
 </head>
 <body>
   <aside class="sidebar" id="sidebar">
@@ -17,15 +18,15 @@
       <p class="nav-label">PRINCIPAL</p>
       <button class="nav-item active" data-page="Resumen" data-view="dashboardView"><span>▦</span>Resumen</button>
       <button class="nav-item" data-page="Facturación" data-view="billingView"><span>▤</span>Facturación</button>
-      <button class="nav-item" data-page="Productos"><span>⬡</span>Productos</button>
-      <button class="nav-item" data-page="Clientes"><span>◎</span>Clientes</button>
+      <button class="nav-item" data-page="Productos" data-view="moduleView" data-module="products"><span>⬡</span>Productos</button>
+      <button class="nav-item" data-page="Clientes" data-view="moduleView" data-module="clients"><span>◎</span>Clientes</button>
       <button class="nav-item" data-page="Órdenes de trabajo" data-view="workOrdersView"><span>☷</span>Órdenes de trabajo</button>
-      <button class="nav-item" data-page="Caja"><span>▣</span>Caja</button>
-      <button class="nav-item" data-page="Stock"><span>◫</span>Stock</button>
+      <button class="nav-item" data-page="Caja" data-view="moduleView" data-module="cash"><span>▣</span>Caja</button>
+      <button class="nav-item" data-page="Stock" data-view="moduleView" data-module="stock"><span>◫</span>Stock</button>
       <div class="nav-separator"></div>
       <p class="nav-label">SOPORTE</p>
-      <button class="nav-item" data-page="Configuración"><span>⚙</span>Configuración</button>
-      <button class="nav-item" data-page="Ayuda"><span>?</span>Ayuda</button>
+      <button class="nav-item" data-page="Configuración" data-view="moduleView" data-module="settings"><span>⚙</span>Configuración</button>
+      <button class="nav-item" data-page="Ayuda" data-view="moduleView" data-module="help"><span>?</span>Ayuda</button>
     </nav>
     <div class="side-profile"><span class="avatar">AD</span><span><b>Admin</b><small>Propietario</small></span><button aria-label="Más opciones">•••</button></div>
   </aside>
@@ -121,6 +122,11 @@
           </tbody></table></div>
           <div class="table-footer"><span id="workOrderCount">Mostrando 5 órdenes</span><div><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div></div>
         </section>
+      </div>
+
+      <div class="app-view" id="moduleView">
+        <div class="page-title"><div><span class="eyebrow" id="moduleEyebrow"></span><h1 id="moduleTitle"></h1><p id="moduleDescription"></p></div><button class="primary" id="moduleAction"></button></div>
+        <div id="moduleContent"></div>
       </div>
     </main>
   </div>
