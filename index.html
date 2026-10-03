@@ -21,6 +21,7 @@
       <button class="nav-item" data-page="Facturación" data-view="billingView"><span>▤</span>Facturación</button>
       <button class="nav-item" data-page="Productos" data-view="moduleView" data-module="products"><span>⬡</span>Productos</button>
       <button class="nav-item" data-page="Clientes" data-view="moduleView" data-module="clients"><span>◎</span>Clientes</button>
+      <button class="nav-item" data-page="Contactos" data-view="contactsView"><span>♙</span>Contactos</button>
       <button class="nav-item" data-page="Órdenes de trabajo" data-view="workOrdersView"><span>☷</span>Órdenes de trabajo</button>
       <button class="nav-item" data-page="Caja" data-view="moduleView" data-module="cash"><span>▣</span>Caja</button>
       <button class="nav-item" data-page="Stock" data-view="moduleView" data-module="stock"><span>◫</span>Stock</button>
@@ -132,6 +133,72 @@
           </tbody></table></div>
           <div class="table-footer"><span id="workOrderCount">Mostrando 5 órdenes</span><div><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div></div>
         </section>
+      </div>
+
+      <div class="app-view" id="contactsView">
+        <div class="page-title contacts-title"><div><span class="eyebrow">RELACIONES</span><h1>Contactos</h1><p>Conocé el estado de cada relación y detectá oportunidades de retención.</p></div><button class="primary" id="newContact">＋ Nuevo contacto</button></div>
+        <div class="contact-tabs" role="tablist" aria-label="Secciones de contactos">
+          <button class="active" data-contact-tab="all" role="tab" aria-selected="true">Todos los contactos <span>286</span></button>
+          <button data-contact-tab="retention" role="tab" aria-selected="false">Retención <span>18</span></button>
+        </div>
+
+        <div class="contact-panel active" id="allContactsPanel">
+          <section class="contact-summary">
+            <article class="card health-overview"><div><span class="eyebrow">SALUD DE LA CARTERA</span><h2>82<span>/100</span></h2><p>La mayoría de tus contactos mantiene una relación saludable.</p></div><div class="health-ring" style="--score:82"><span><b>82</b><small>Salud</small></span></div></article>
+            <article class="card contact-kpi"><span class="metric-icon green">✓</span><div><small>Saludables</small><strong>214</strong><p>75% de la cartera</p></div></article>
+            <article class="card contact-kpi"><span class="metric-icon orange">!</span><div><small>Requieren atención</small><strong>54</strong><p>19% de la cartera</p></div></article>
+            <article class="card contact-kpi"><span class="metric-icon red">↘</span><div><small>En riesgo</small><strong>18</strong><p>6% de la cartera</p></div></article>
+          </section>
+          <section class="card billing-panel">
+            <div class="billing-toolbar"><div><h3>Todos los contactos</h3><p>Información comercial y nivel de salud de cada relación</p></div><div class="filters"><label class="mini-search">⌕ <input id="contactSearch" type="search" placeholder="Buscar nombre o empresa"></label><select id="contactHealth"><option value="all">Todos los niveles</option><option value="healthy">Saludable</option><option value="attention">Atención</option><option value="risk">En riesgo</option></select></div></div>
+            <div class="table-wrap"><table class="invoice-table contacts-table"><thead><tr><th>CONTACTO</th><th>EMPRESA</th><th>ÚLTIMA ACTIVIDAD</th><th>VALOR</th><th>SCORE DE SALUD</th><th></th></tr></thead><tbody id="contactsBody">
+              <tr data-health="healthy"><td><span class="contact-person"><i>LM</i><span><b>Lucía Méndez</b><small>lucia@metalnorte.com</small></span></span></td><td>Metalúrgica Norte<small>Industria</small></td><td><b>Hace 2 días</b><small>Factura pagada</small></td><td><b>$ 4.850.000</b><small>Últimos 12 meses</small></td><td><span class="health-score healthy"><b>94</b><i><em style="width:94%"></em></i><small>Saludable</small></span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+              <tr data-health="healthy"><td><span class="contact-person purple-contact"><i>FA</i><span><b>Federico Alonso</b><small>federico@delta.com</small></span></span></td><td>Estudio Delta<small>Servicios</small></td><td><b>Hace 5 días</b><small>Nueva orden</small></td><td><b>$ 2.960.000</b><small>Últimos 12 meses</small></td><td><span class="health-score healthy"><b>86</b><i><em style="width:86%"></em></i><small>Saludable</small></span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+              <tr data-health="attention"><td><span class="contact-person orange-contact"><i>MS</i><span><b>Mariana Suárez</b><small>mariana@rivera.com</small></span></span></td><td>Industrias Rivera<small>Manufactura</small></td><td><b>Hace 21 días</b><small>Factura pendiente</small></td><td><b>$ 1.880.000</b><small>Últimos 12 meses</small></td><td><span class="health-score attention"><b>63</b><i><em style="width:63%"></em></i><small>Atención</small></span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+              <tr data-health="risk"><td><span class="contact-person red-contact"><i>JP</i><span><b>Julián Pereyra</b><small>julian@csm.com</small></span></span></td><td>Comercial San Martín<small>Comercio</small></td><td><b>Hace 48 días</b><small>Pago vencido</small></td><td><b>$ 1.240.000</b><small>Últimos 12 meses</small></td><td><span class="health-score risk"><b>38</b><i><em style="width:38%"></em></i><small>En riesgo</small></span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+              <tr data-health="attention"><td><span class="contact-person blue-contact"><i>CV</i><span><b>Carolina Vega</b><small>carolina@servsur.com</small></span></span></td><td>Servicios del Sur<small>Servicios</small></td><td><b>Hace 16 días</b><small>Consulta comercial</small></td><td><b>$ 3.120.000</b><small>Últimos 12 meses</small></td><td><span class="health-score attention"><b>68</b><i><em style="width:68%"></em></i><small>Atención</small></span></td><td><button class="row-menu" aria-label="Opciones">•••</button></td></tr>
+            </tbody></table></div>
+            <div class="table-footer"><span id="contactCount">Mostrando 5 de 286 contactos</span><div><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div></div>
+          </section>
+        </div>
+
+        <div class="contact-panel" id="retentionPanel">
+          <section class="retention-hero"><div><span class="eyebrow">RETENCIÓN</span><h2>18 relaciones necesitan atención</h2><p>Contactos con baja actividad, pagos demorados o una caída en su frecuencia de compra.</p></div><span class="retention-badge">6% de la cartera</span></section>
+          <section class="retention-grid">
+            <article class="card retention-card urgent"><header><span class="contact-person red-contact"><i>JP</i><span><b>Julián Pereyra</b><small>Comercial San Martín</small></span></span><span class="health-score risk"><b>38</b><small>En riesgo</small></span></header><div class="risk-reasons"><span>◷ 48 días sin actividad</span><span>! Pago vencido</span></div><footer><small>Valor últimos 12 meses <b>$ 1.240.000</b></small><button class="secondary contact-action">Contactar</button></footer></article>
+            <article class="card retention-card urgent"><header><span class="contact-person orange-contact"><i>RG</i><span><b>Ramiro Gómez</b><small>Taller Central</small></span></span><span class="health-score risk"><b>42</b><small>En riesgo</small></span></header><div class="risk-reasons"><span>↘ Compras −46%</span><span>◷ 37 días sin actividad</span></div><footer><small>Valor últimos 12 meses <b>$ 980.000</b></small><button class="secondary contact-action">Contactar</button></footer></article>
+            <article class="card retention-card"><header><span class="contact-person purple-contact"><i>AN</i><span><b>Agustina Núñez</b><small>Grupo Horizonte</small></span></span><span class="health-score attention"><b>57</b><small>Atención</small></span></header><div class="risk-reasons"><span>◷ 29 días sin actividad</span><span>↘ Menor frecuencia</span></div><footer><small>Valor últimos 12 meses <b>$ 2.410.000</b></small><button class="secondary contact-action">Contactar</button></footer></article>
+            <article class="card retention-card"><header><span class="contact-person blue-contact"><i>SB</i><span><b>Santiago Blanco</b><small>Logística Oeste</small></span></span><span class="health-score attention"><b>61</b><small>Atención</small></span></header><div class="risk-reasons"><span>! Presupuesto sin respuesta</span><span>◷ 24 días sin actividad</span></div><footer><small>Valor últimos 12 meses <b>$ 1.760.000</b></small><button class="secondary contact-action">Contactar</button></footer></article>
+          </section>
+        </div>
+
+        <div class="contact-panel" id="contactDetailPanel">
+          <button class="contact-back" id="contactBack">‹ Volver a contactos</button>
+          <section class="card contact-profile">
+            <div class="profile-main"><span class="profile-avatar" id="detailInitials">LM</span><div><div class="profile-name"><h2 id="detailName">Lucía Méndez</h2><span>Cliente</span></div><p>Responsable de compras en <b id="detailCompany">Metalúrgica Norte</b></p><div class="profile-meta"><span>✉ lucia@metalnorte.com</span><span>⌕ 11 4568-2091</span></div></div></div>
+            <div class="profile-actions"><button class="secondary profile-action">✉ Enviar email</button><button class="secondary profile-action">⌕ Llamar</button><button class="primary profile-action">✎ Editar contacto</button></div>
+            <div class="profile-stats"><span><i class="blue">▤</i><small>Facturas</small><b>18</b></span><span><i class="green">$</i><small>Valor total</small><b id="detailValue">$ 4.850.000</b></span><span><i class="purple">◷</i><small>Actividades</small><b>24</b></span><span><i class="orange">✓</i><small>Tareas pendientes</small><b>2</b></span><span><i>◷</i><small>Última actualización</small><b>Hace 2 días</b></span></div>
+          </section>
+
+          <section class="card account-health healthy" id="accountHealthCard">
+            <header><span>♡ SALUD DE LA CUENTA</span><b id="detailHealthLabel">Saludable</b></header>
+            <div class="account-health-body"><div class="detail-score" id="detailScore">94</div><div class="health-copy"><b>Salud general</b><p id="detailHealthMessage">Relación activa, pagos al día y buena frecuencia de compra.</p></div></div>
+            <div class="health-factors"><span><small>Actividad</small><b>92</b></span><span><small>Facturación</small><b>96</b></span><span><small>Pagos</small><b>100</b></span></div>
+            <footer><span>Calculado con actividad, compras y comportamiento de pago.</span><button class="link-button profile-action">Recalcular</button></footer>
+          </section>
+
+          <div class="detail-tabs"><button class="active">◎ Resumen</button><button>⌁ Actividad</button><button>▤ Facturación</button><button>☷ Órdenes</button></div>
+          <section class="contact-detail-grid">
+            <aside class="detail-sidebar">
+              <article class="card detail-card"><h3>▣ Datos del contacto</h3><dl><div><dt>Etapa</dt><dd><span class="status done">Cliente activo</span></dd></div><div><dt>Empresa</dt><dd id="detailCompanyInfo">Metalúrgica Norte</dd></div><div><dt>Cargo</dt><dd>Responsable de compras</dd></div><div><dt>Industria</dt><dd>Manufactura</dd></div><div><dt>Origen</dt><dd>Referido</dd></div><div><dt>Asignado a</dt><dd>Laura Soto</dd></div></dl></article>
+              <article class="card detail-card"><h3>⌾ Dirección</h3><p>Av. del Libertador 6240<br>Munro, Buenos Aires</p></article>
+            </aside>
+            <div class="detail-main">
+              <article class="card timeline-card"><header><div><h3>Próximas actividades</h3><p>Seguimiento y tareas programadas</p></div><button class="link-button profile-action">＋ Nueva tarea</button></header><div class="upcoming-item"><span class="metric-icon purple">⌕</span><div><b>Llamada de seguimiento</b><small>Mañana · 10:30 · Asignada a Laura Soto</small></div><span class="status pending">Pendiente</span></div><div class="upcoming-item"><span class="metric-icon blue">✉</span><div><b>Enviar propuesta de mantenimiento</b><small>07 oct · Sin horario</small></div><span class="status process">Planificada</span></div></article>
+              <article class="card timeline-card"><header><div><h3>Actividad reciente</h3><p>Últimas interacciones con el contacto</p></div><button class="link-button profile-action">Ver todo →</button></header><div class="activity-timeline"><div><i class="green">$</i><span><b>Pago recibido por $ 1.284.000</b><small>Factura A 0001-00001248 · Hace 2 días</small></span></div><div><i class="purple">☷</i><span><b>Orden de trabajo completada</b><small>Mantenimiento de compresor · Hace 6 días</small></span></div><div><i class="blue">✉</i><span><b>Email enviado</b><small>Propuesta de servicio trimestral · Hace 9 días</small></span></div></div></article>
+            </div>
+          </section>
+        </div>
       </div>
 
       <div class="app-view" id="moduleView">

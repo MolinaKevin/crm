@@ -33,7 +33,17 @@ document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('cl
     document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
     document.querySelector(`#${item.dataset.view}`).classList.add('active');
     if (item.dataset.module) renderModule(item.dataset.module);
-    const placeholders = { Facturación: 'Buscar comprobantes...', 'Órdenes de trabajo': 'Buscar órdenes...', Productos: 'Buscar productos...', Clientes: 'Buscar clientes...', Caja: 'Buscar movimientos...', Stock: 'Buscar en stock...', Configuración: 'Buscar configuración...', Ayuda: 'Buscar ayuda...' };
+    if (item.dataset.view === 'contactsView') {
+      document.querySelector('#contactsView').classList.remove('contacts-detail-open');
+      document.querySelectorAll('.contact-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelector('#allContactsPanel').classList.add('active');
+      document.querySelectorAll('[data-contact-tab]').forEach(tab => {
+        const isAll = tab.dataset.contactTab === 'all';
+        tab.classList.toggle('active', isAll);
+        tab.setAttribute('aria-selected', isAll ? 'true' : 'false');
+      });
+    }
+    const placeholders = { Facturación: 'Buscar comprobantes...', 'Órdenes de trabajo': 'Buscar órdenes...', Productos: 'Buscar productos...', Clientes: 'Buscar clientes...', Contactos: 'Buscar contactos...', Caja: 'Buscar movimientos...', Stock: 'Buscar en stock...', Configuración: 'Buscar configuración...', Ayuda: 'Buscar ayuda...' };
     searchInput.placeholder = placeholders[item.dataset.page] || 'Buscar en el sistema...';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } else {
@@ -52,6 +62,11 @@ searchInput.addEventListener('input', () => {
   if (document.querySelector('#workOrdersView').classList.contains('active')) {
     document.querySelector('#workOrderSearch').value = searchInput.value;
     filterWorkOrders();
+    return;
+  }
+  if (document.querySelector('#contactsView').classList.contains('active')) {
+    document.querySelector('#contactSearch').value = searchInput.value;
+    filterContacts();
     return;
   }
   if (document.querySelector('#moduleView').classList.contains('active')) {
@@ -172,6 +187,85 @@ document.querySelector('#workOrderStatus').addEventListener('change', filterWork
 document.querySelector('#workOrderFilter').addEventListener('click', () => showToast('Filtros avanzados: vista de demostración'));
 document.querySelectorAll('#workOrderBody .row-menu').forEach(button => button.addEventListener('click', () => showToast('Opciones de la orden')));
 document.querySelectorAll('.new-order-trigger').forEach(button => button.addEventListener('click', () => dialog.showModal()));
+
+function filterContacts() {
+  const query = document.querySelector('#contactSearch').value.toLocaleLowerCase('es').trim();
+  const health = document.querySelector('#contactHealth').value;
+  let visible = 0;
+  document.querySelectorAll('#contactsBody tr').forEach(row => {
+    const matchesText = row.textContent.toLocaleLowerCase('es').includes(query);
+    const matchesHealth = health === 'all' || row.dataset.health === health;
+    row.hidden = !(matchesText && matchesHealth);
+    if (!row.hidden) visible++;
+  });
+  document.querySelector('#contactCount').textContent = `Mostrando ${visible} de 286 contactos`;
+}
+
+document.querySelectorAll('[data-contact-tab]').forEach(button => button.addEventListener('click', () => {
+  document.querySelector('#contactsView').classList.remove('contacts-detail-open');
+  document.querySelectorAll('[data-contact-tab]').forEach(tab => {
+    tab.classList.toggle('active', tab === button);
+    tab.setAttribute('aria-selected', tab === button ? 'true' : 'false');
+  });
+  document.querySelectorAll('.contact-panel').forEach(panel => panel.classList.remove('active'));
+  document.querySelector(button.dataset.contactTab === 'retention' ? '#retentionPanel' : '#allContactsPanel').classList.add('active');
+}));
+document.querySelector('#contactSearch').addEventListener('input', filterContacts);
+document.querySelector('#contactHealth').addEventListener('change', filterContacts);
+document.querySelector('#newContact').addEventListener('click', () => showToast('Nuevo contacto: formulario de demostración'));
+document.querySelectorAll('#contactsView .row-menu').forEach(button => button.addEventListener('click', () => showToast('Opciones del contacto')));
+document.querySelectorAll('.contact-action').forEach(button => button.addEventListener('click', event => {
+  const name = event.currentTarget.closest('.retention-card').querySelector('.contact-person b').textContent;
+  showToast(`Preparando contacto con ${name}`);
+}));
+
+function openContactDetail(row) {
+  const person = row.querySelector('.contact-person');
+  const name = person.querySelector('b').textContent;
+  const email = person.querySelector('small').textContent;
+  const initials = person.querySelector('i').textContent;
+  const company = row.children[1].childNodes[0].textContent.trim();
+  const value = row.children[3].querySelector('b').textContent;
+  const score = row.querySelector('.health-score b').textContent;
+  const health = row.dataset.health;
+  const healthConfig = {
+    healthy: ['Saludable', 'Relación activa, pagos al día y buena frecuencia de compra.'],
+    attention: ['Requiere atención', 'La actividad reciente bajó. Conviene programar un seguimiento.'],
+    risk: ['En riesgo', 'Inactividad prolongada o pagos demorados. Recomendamos contactar pronto.']
+  }[health];
+  document.querySelector('#detailInitials').textContent = initials;
+  document.querySelector('#detailName').textContent = name;
+  document.querySelector('#detailCompany').textContent = company;
+  document.querySelector('#detailCompanyInfo').textContent = company;
+  document.querySelector('#detailValue').textContent = value;
+  document.querySelector('#detailScore').textContent = score;
+  document.querySelector('#detailHealthLabel').textContent = healthConfig[0];
+  document.querySelector('#detailHealthMessage').textContent = healthConfig[1];
+  document.querySelector('.profile-meta span').textContent = `✉ ${email}`;
+  document.querySelector('#accountHealthCard').className = `card account-health ${health}`;
+  document.querySelectorAll('.contact-panel').forEach(panel => panel.classList.remove('active'));
+  document.querySelector('#contactDetailPanel').classList.add('active');
+  document.querySelector('#contactsView').classList.add('contacts-detail-open');
+  document.querySelector('#currentPage').textContent = name;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('#contactsBody tr').forEach(row => row.addEventListener('click', event => {
+  if (event.target.closest('.row-menu')) return;
+  openContactDetail(row);
+}));
+document.querySelector('#contactBack').addEventListener('click', () => {
+  document.querySelector('#contactDetailPanel').classList.remove('active');
+  document.querySelector('#allContactsPanel').classList.add('active');
+  document.querySelector('#contactsView').classList.remove('contacts-detail-open');
+  document.querySelector('#currentPage').textContent = 'Contactos';
+});
+document.querySelectorAll('.profile-action').forEach(button => button.addEventListener('click', () => showToast(`${button.textContent.trim()}: acción de demostración`)));
+document.querySelectorAll('.detail-tabs button').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('.detail-tabs button').forEach(tab => tab.classList.remove('active'));
+  button.classList.add('active');
+  if (!button.textContent.includes('Resumen')) showToast(`${button.textContent.trim()}: vista de demostración`);
+}));
 
 const moduleData = {
   products: {
